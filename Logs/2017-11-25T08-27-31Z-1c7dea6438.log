@@ -1,0 +1,77 @@
+2017-11-25T08:27:42.725 Host Status: {
+  "id": "ergonomicadvisor",
+  "state": "Running",
+  "version": "1.0.11388.0"
+}
+2017-11-25T08:37:01.329 Function started (Id=4b769215-3b32-4740-a4c3-a1e30a265038)
+2017-11-25T08:37:01.532 Executing 'testPost' (Reason='This function was programmatically called via the host APIs.', Id=4b769215-3b32-4740-a4c3-a1e30a265038)
+2017-11-25T08:37:01.704 A ScriptHost error has occurred
+2017-11-25T08:37:01.704 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:37:02.041 Exception while executing function: testPost
+2017-11-25T08:37:02.041 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:37:02.057 Function completed (Failure, Id=4b769215-3b32-4740-a4c3-a1e30a265038, Duration=714ms)
+2017-11-25T08:37:02.057 Executed 'testPost' (Failed, Id=4b769215-3b32-4740-a4c3-a1e30a265038)
+2017-11-25T08:37:02.057 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:37:02.057 Function had errors. See Azure WebJobs SDK dashboard for details. Instance ID is '4b769215-3b32-4740-a4c3-a1e30a265038'
+2017-11-25T08:37:02.057 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:37:02.136 {"id":"afe237f8-e7d3-40fc-ac1b-330ac7f586c2","requestId":"0146f448-de0f-46ed-8ccd-5d7e74c55816","statusCode":500,"errorCode":0,"message":"An error has occurred. For more information, please check the logs for error ID afe237f8-e7d3-40fc-ac1b-330ac7f586c2"}
+2017-11-25T08:37:02.136 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:42:13.578 Stopping Host
+2017-11-25T08:42:13.748 Job host stopped
+2017-11-25T08:42:32.243 Reading host configuration file 'D:\home\site\wwwroot\host.json'
+2017-11-25T08:42:32.306 Host configuration file read:
+{}
+2017-11-25T08:42:33.056 Loaded custom extension 'BotFrameworkConfiguration'
+2017-11-25T08:42:33.056 Loaded custom extension 'SendGridConfiguration'
+2017-11-25T08:42:33.072 Loaded custom extension 'EventGridExtensionConfig'
+2017-11-25T08:42:35.837 Host lock lease acquired by instance ID '1c7dea64389943e9b05449cf5256ea33'.
+2017-11-25T08:42:43.027 Function compilation error
+2017-11-25T08:42:43.027 run.csx(2,1): error CS0006: Metadata file 'Microsoft.Azure' could not be found
+2017-11-25T08:42:43.027 run.csx(19,28): error CS7036: There is no argument given that corresponds to the required formal parameter 'url' of 'SlackMessage.SlackMessage(string, string)'
+2017-11-25T08:42:43.027 Generating 3 job function(s)
+2017-11-25T08:42:43.202 Starting Host (HostId=ergonomicadvisor, Version=1.0.11388.0, ProcessId=8832, Debug=True, ConsecutiveErrors=0, StartupCount=1, FunctionsExtensionVersion=~1)
+2017-11-25T08:42:43.699 Development settings applied
+2017-11-25T08:42:43.716 Found the following functions:
+Host.Functions.TimerTriggerCSharp1
+ErgonomicAdvisor.SlackIntegration.Run
+ErgonomicAdvisor.testPost.Run
+2017-11-25T08:42:43.808 Singleton lock acquired (ergonomicadvisor/Host.Functions.TimerTriggerCSharp1.Listener)
+2017-11-25T08:42:43.904 Singleton lock acquired (ergonomicadvisor/ErgonomicAdvisor.SlackIntegration.Run.Listener)
+2017-11-25T08:42:43.934 Function 'Host.Functions.TimerTriggerCSharp1' initial status: Last='2017-11-24T16:05:00.0118415+00:00', Next='2017-11-27T09:05:00.0000000+00:00', LastUpdated='2017-11-24T16:05:00.0118415+00:00'
+2017-11-25T08:42:43.949 The next 5 occurrences of the schedule will be:
+11/27/2017 9:05:00 AM
+11/27/2017 10:05:00 AM
+11/27/2017 11:05:00 AM
+11/27/2017 12:05:00 PM
+11/27/2017 1:05:00 PM
+2017-11-25T08:42:43.965 Function 'ErgonomicAdvisor.SlackIntegration.Run' initial status: Last='0001-01-01T00:00:00.0000000', Next='2017-11-27T09:26:00.0000000+00:00', LastUpdated='2017-11-24T20:02:26.3499717+00:00'
+2017-11-25T08:42:43.965 The next 5 occurrences of the schedule will be:
+11/27/2017 9:26:00 AM
+11/27/2017 10:26:00 AM
+11/27/2017 11:26:00 AM
+11/27/2017 12:26:00 PM
+11/27/2017 1:26:00 PM
+2017-11-25T08:42:43.965 Job host started
+2017-11-25T08:42:44.261 Function started (Id=a54d1595-b96f-4df5-8361-134907163809)
+2017-11-25T08:42:44.605 Executing 'testPost' (Reason='This function was programmatically called via the host APIs.', Id=a54d1595-b96f-4df5-8361-134907163809)
+2017-11-25T08:42:44.716 A ScriptHost error has occurred
+2017-11-25T08:42:44.716 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:42:44.839 Exception while executing function: testPost
+2017-11-25T08:42:44.839 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:42:44.859 Function completed (Failure, Id=a54d1595-b96f-4df5-8361-134907163809, Duration=586ms)
+2017-11-25T08:42:44.904 Executed 'testPost' (Failed, Id=a54d1595-b96f-4df5-8361-134907163809)
+2017-11-25T08:42:44.904 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:42:44.904 Function had errors. See Azure WebJobs SDK dashboard for details. Instance ID is 'a54d1595-b96f-4df5-8361-134907163809'
+2017-11-25T08:42:44.904 Value cannot be null.
+Parameter name: connectionString
+2017-11-25T08:42:44.964 {"id":"877b0666-d47b-4ed8-967a-049547366801","requestId":"0047915b-f6b4-4f83-b6bf-10198eed7856","statusCode":500,"errorCode":0,"message":"An error has occurred. For more information, please check the logs for error ID 877b0666-d47b-4ed8-967a-049547366801"}
+2017-11-25T08:42:44.964 Value cannot be null.
+Parameter name: connectionString
