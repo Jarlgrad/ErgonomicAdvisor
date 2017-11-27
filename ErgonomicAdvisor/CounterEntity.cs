@@ -2,14 +2,15 @@
 
 namespace ErgonomicAdvisor
 {
-    public class CountEntity : TableEntity
+    public class CounterEntity : TableEntity
     {
-        public CountEntity(string count)
+        public CounterEntity(string count)
         {
             this.PartitionKey = "count";
             this.RowKey = count;
+            this.ETag = "*";
         }
-        public CountEntity() { }
+        public CounterEntity() { }
 
     }
 }

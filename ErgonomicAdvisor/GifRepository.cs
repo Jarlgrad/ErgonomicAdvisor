@@ -2,6 +2,8 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System.Threading.Tasks;
+using Microsoft.Azure.WebJobs.Host;
+using System.Linq;
 
 namespace ErgonomicAdvisor
 {
@@ -10,17 +12,19 @@ namespace ErgonomicAdvisor
         private readonly CloudStorageAccount _storageAccount;
         private readonly CloudTableClient _tableClient;
         private readonly CloudTable _table;
+        private readonly TraceWriter _log;
 
-        internal GifRepository()
+        internal GifRepository(TraceWriter log)
         {
             _storageAccount = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
             _tableClient = _storageAccount.CreateCloudTableClient();
             _table = _tableClient.GetTableReference(Environment.GetEnvironmentVariable("Table"));
+            _log = log;
         }
 
         internal GifserciseEntity GetGifsercise()
         {
-            var gifIndex = GetGifIndex().ToString();
+            var gifIndex = GetRandomGifIndex().ToString();
 
             var getOperation = TableOperation.Retrieve<GifserciseEntity>("gif", gifIndex);
 
@@ -30,28 +34,50 @@ namespace ErgonomicAdvisor
 
         internal async Task<TableResult> AddGifsercise(GifserciseEntity gifsercise)
         {
-            TableOperation insertOperation = TableOperation.Insert(gifsercise);
-            var insertResult = await _table.ExecuteAsync(insertOperation);
+            _log.Info($"In gifRepo: new Entity: index: {gifsercise.RowKey}, image_url: {gifsercise.image_url}, text: {gifsercise.text}");
+            try
+            {
+                TableOperation insertOperation = TableOperation.Insert(gifsercise);
 
-            return insertResult;
+                var insertResult = await _table.ExecuteAsync(insertOperation);
+                if (insertResult.HttpStatusCode < 300)
+                    _log.Info($"insert successful with status: {insertResult.HttpStatusCode}");
+                else
+                    _log.Info($"insert failed with status: {insertResult.HttpStatusCode}, result: {insertResult.Result.ToString()}");
+
+                return insertResult;
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"insert unsuccessful", ex);
+                throw;
+            }
         }
-        internal string UpdateRowCount(int gifCount)
-        { 
-            var countEntity = new CountEntity(gifCount.ToString());
+
+        internal string UpdateRowCount()
+        {
+            var currentGifCount = GetGifCount();
+            if (currentGifCount == 1)
+                return AddGifCounter(new CounterEntity(currentGifCount.ToString()));
             
-            TableOperation replaceOperation = gifCount == 2
-                ? TableOperation.InsertOrReplace(countEntity)
-                : TableOperation.Replace(countEntity);
-
-            var replaceResult = _table.Execute(replaceOperation);
-
-            if (replaceResult.HttpStatusCode < 300)
-                return countEntity.RowKey;
-            else
-                return replaceResult.HttpStatusCode.ToString();
+            DeleteGifCount(currentGifCount);
+            return AddGifCounter(new CounterEntity((currentGifCount + 1).ToString()));
         }
 
-        internal int GetGifIndex()
+        internal string AddGifCounter(CounterEntity gifCounter)
+        {
+            var insertOperation = TableOperation.InsertOrReplace(gifCounter);
+            var replaceResult = _table.Execute(insertOperation);
+            return gifCounter.RowKey.ToString();
+        }
+        private void DeleteGifCount(int gifCount)
+        {
+            var deleteCount = new CounterEntity(gifCount.ToString());
+            TableOperation deleteOperation = TableOperation.Delete(deleteCount);
+            var deleteResult = _table.Execute(deleteOperation);
+        }
+
+        internal int GetRandomGifIndex()
         {
             int count = GetGifCount();
 
@@ -61,18 +87,14 @@ namespace ErgonomicAdvisor
 
         internal int GetGifCount()
         {
-            int count = 1;
-            var query = new TableQuery<GifserciseEntity>()
-                                    .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "count"));
+            var query = new TableQuery<CounterEntity>()
+                       .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "count"));
 
-            foreach (var entity in _table.ExecuteQuery(query))
-            {
-                Console.WriteLine(entity.PartitionKey + ": " + entity.RowKey);
-                count = int.Parse(entity.RowKey);
-            }
+            var count = _table.ExecuteQuery(query)
+                        .FirstOrDefault()
+                        .RowKey;
 
-            return count;
+            return int.Parse(count);
         }
-
     }
 }

@@ -12,7 +12,7 @@ namespace ErgonomicAdvisor
         [FunctionName("SlackIntegration")]
         public static void Run([TimerTrigger("0 26 9-17 * * 1-5")]TimerInfo myTimer, TraceWriter log)
         {
-            var gifRepo = new GifRepository();
+            var gifRepo = new GifRepository(log);
 
             var slackMessage = gifRepo.GetGifsercise();
 
