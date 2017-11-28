@@ -3,6 +3,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using System.Web.Http.Results;
+using System.Web.Http;
 
 namespace ErgonomicAdvisor
 {
@@ -11,7 +12,7 @@ namespace ErgonomicAdvisor
         [FunctionName("testPost")]
         public static async Task<string> Run
             (
-                [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]Gifsercise gifsercise,
+                [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]SlackRequest gifsercise,
                 TraceWriter log
             )
         {
