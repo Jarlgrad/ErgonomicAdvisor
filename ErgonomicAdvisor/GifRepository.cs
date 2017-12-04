@@ -57,10 +57,9 @@ namespace ErgonomicAdvisor
         internal string UpdateRowCount()
         {
             var currentGifCount = GetGifCount();
-            if (currentGifCount == 1)
-                return AddGifCounter(new CounterEntity(currentGifCount.ToString()));
-            
-            DeleteGifCount(currentGifCount);
+            if (currentGifCount > 0)
+                DeleteGifCount(currentGifCount);
+
             return AddGifCounter(new CounterEntity((currentGifCount + 1).ToString()));
         }
 
@@ -87,6 +86,7 @@ namespace ErgonomicAdvisor
 
         internal int GetGifCount()
         {
+            // if table storage was reset, set { return 0; }
             var query = new TableQuery<CounterEntity>()
                        .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "count"));
 

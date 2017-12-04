@@ -7,10 +7,10 @@ using System.Text;
 
 namespace ErgonomicAdvisor
 {
-    public static class SlackIntegration
+    public static class GifserciseTimer
     {
-        [FunctionName("SlackIntegration")]
-        public static void Run([TimerTrigger("0 26 9-17 * * 1-5")]TimerInfo myTimer, TraceWriter log)
+        [FunctionName("GifserciseTimer")]
+        public static void Run([TimerTrigger("0 * 9-17 * * 1-5")]TimerInfo myTimer, TraceWriter log)
         {
             var gifRepo = new GifRepository(log);
 
@@ -24,6 +24,7 @@ namespace ErgonomicAdvisor
 
         internal static void PostToSlack(GifserciseEntity gifsercise)
         {
+            var gifText = string.Concat(gifsercise, @"| \<@techmoves\>");
             var slackMessage = new SlackMessage(gifsercise.image_url, gifsercise.text);
 
             var ergoAdvice = new StringContent(JsonConvert.SerializeObject(slackMessage), Encoding.UTF8, "application/json");
@@ -31,16 +32,6 @@ namespace ErgonomicAdvisor
             using (var client = new HttpClient())
             {
                 var result = client.PostAsync((Environment.GetEnvironmentVariable("slack.webhook")), ergoAdvice);
-
-                Console.WriteLine(client.BaseAddress + "T124A62R2/B80KR3XC0/IlXKCl9tXN2WsJVOe04T4ntA");
-                Console.WriteLine(ergoAdvice.ReadAsStringAsync().Result);
-                Console.WriteLine(result.Result.RequestMessage);
-                Console.WriteLine(result.Result);
-                Console.WriteLine(result.Status);
-                Console.WriteLine(result.CreationOptions);
-                Console.WriteLine(result.IsCompleted);
-
-                Console.ReadLine();
             }
         }
     }
