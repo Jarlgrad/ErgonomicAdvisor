@@ -29,7 +29,6 @@ namespace ErgonomicAdvisor
                     var rowResult = gifRepo.UpdateRowCount();
                     log.Info($"Successful put gifsercise. new max index: {rowResult}.");
 
-                    await GifserciseTimer.PostToSlack(gif);
                     return $"Successfully addded gif with index: {rowResult}, url: {gif.image_url}, text: '{gif.text}' and statusCode: {insertResult.HttpStatusCode}.";
                 }
                 else

@@ -11,7 +11,7 @@ namespace ErgonomicAdvisor
     public static class GifserciseTimer
     {
         [FunctionName("GifserciseTimer")]
-        public static void Run([TimerTrigger("0 05 9-17 * * 1-5")]TimerInfo myTimer, TraceWriter log)
+        public static void Run([TimerTrigger("0 26 9-17 * * 1-5")]TimerInfo myTimer, TraceWriter log)
         {
             var gifRepo = new GifRepository(log);
 
@@ -28,7 +28,7 @@ namespace ErgonomicAdvisor
 
         internal static async Task<HttpResponseMessage> PostToSlack(GifserciseEntity gifsercise)
         {
-            var gifText = string.Concat(gifsercise.text, @" | <@techmoves>");
+            var gifText = string.Concat(gifsercise.text, @" | <!channel>");
             var slackMessage = new SlackMessage(gifsercise.image_url, gifText);
 
             var slackOutput = new StringContent(JsonConvert.SerializeObject(slackMessage), Encoding.UTF8, "application/json");
