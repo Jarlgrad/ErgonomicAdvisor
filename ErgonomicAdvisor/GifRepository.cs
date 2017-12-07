@@ -81,7 +81,7 @@ namespace ErgonomicAdvisor
             int count = GetGifCount();
 
             var random = new Random();
-            return random.Next(2, count);
+            return random.Next(1, count);
         }
 
         internal int GetGifCount()

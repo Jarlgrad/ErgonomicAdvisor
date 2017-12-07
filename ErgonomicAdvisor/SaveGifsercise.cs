@@ -29,6 +29,7 @@ namespace ErgonomicAdvisor
                     var rowResult = gifRepo.UpdateRowCount();
                     log.Info($"Successful put gifsercise. new max index: {rowResult}.");
 
+                    await GifserciseTimer.PostToSlack(gif);
                     return $"Successfully addded gif with index: {rowResult}, url: {gif.image_url}, text: '{gif.text}' and statusCode: {insertResult.HttpStatusCode}.";
                 }
                 else
@@ -49,12 +50,13 @@ namespace ErgonomicAdvisor
             var newGifIndex = repo.GetGifCount() + 1;
 
             var valuePairs = req.Content.ReadAsFormDataAsync().Result;
+            char[] splitter = { ' ' };
 
             return new GifserciseEntity(
                     partition : "gif",
                     row: newGifIndex.ToString(), 
-                    url : valuePairs["url"], 
-                    text : valuePairs["text"]
+                    url : valuePairs["text"].Split(splitter, 2)[0], 
+                    text : valuePairs["text"].Split(splitter, 2)[1]
             );
         }
     }
